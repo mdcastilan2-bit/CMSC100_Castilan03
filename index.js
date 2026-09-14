@@ -14,28 +14,30 @@ function passValidation (passAct, input){
     //checks if the input is the same as the actual password
     switch(input){
         case passAct:
-            console.log("Yeah, yeah, they match")
+            //console.log("Yeah, yeah, they match")
             matchCheck = true
             break
         default:
-            console.log("They don't match")
+            //console.log("They don't match")
             break
     }
     
     //checks if the input has at least 8 characters
-    if (input.length >= 8){
+    if (passAct.length >= 8){
         lengthCheck = true
-        console.log("Yep, length checks out.")
+        //console.log("Yep, length checks out.")
     }
-    else if (input.length < 8){
-        console.log("Too short")
+    else if (passAct.length < 8){
+        lengthCheck = false
+        //console.log("Too short")
     }
     else {
+        lengthCheck = false
         console.log("Length check error.")
     }
 
     //checks if input has at least 1 number, 1 uppercase character, and 1 lowercase character
-    let passArray = input.split("")
+    let passArray = passAct.split("")
     let numUpper = 0
     let numLower = 0
     let numNum = 0
@@ -52,23 +54,24 @@ function passValidation (passAct, input){
     }
 
     if (numUpper >= 1 && numLower >= 1 && numNum >= 1){
-        console.log("Complex enough")
+        //console.log("Complex enough")
         strengthCheck = true
     } else if (numUpper < 1 || numLower < 1 || numNum < 1) {
-        console.log("At least one of the complexities is not enough")
+        //console.log("At least one of the complexities is not enough")
+        strengthCheck = false
     } else {
         console.log("Something went wrong")
     }
 
     //checks if all three conditions are satisfied.
     if (matchCheck == true && lengthCheck == true && strengthCheck == true){
-        console.log("Everything is satisfied.")
+        //console.log("Everything is satisfied.")
         return true
     } else if (matchCheck == false || lengthCheck == false || strengthCheck == false) {
-        console.log("At least one of the conditions were unsatisfied.")
+        //console.log("At least one of the conditions were unsatisfied.")
         return false
     } else {
-        console.log("Something went wrong")
+        //console.log("Something went wrong")
         return false
     }
 
@@ -85,7 +88,19 @@ function passReverse (pass) {
     return passRevAct
 }
 //function for storing the password to the object
-
+function storeObject (nameInput, passInput, passActual) {
+    var newPassword
+    if (passValidation(passActual, passInput) == true){
+        newPassword = passReverse(passActual)
+    } else {
+        newPassword = passInput
+    }
+    const Castilan = {
+        name1: nameInput,
+        password: newPassword
+    }
+    return Castilan
+}
 //Testing
 //correct password
 var password_input = "StoryMaker321"
@@ -95,6 +110,15 @@ password_input = "StoryMaker"
 passValidation(password_actual,password_input)
 //reverse password
 console.log(passReverse(password_actual))
-
+//return object when passInput is correct
+password_input = "StoryMaker321"
+var newUser = storeObject("Guile", password_input, password_actual)
+console.log(newUser.name1)
+console.log(newUser.password)
+//return object when passInput is false
+password_input = "StoryMaker"
+var newUser = storeObject("Guile", password_input, password_actual)
+console.log(newUser.name1)
+console.log(newUser.password)
 
 
