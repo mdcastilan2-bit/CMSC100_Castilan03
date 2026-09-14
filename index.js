@@ -2,28 +2,99 @@
 //D1L
 //09-07-26
 
-var password_input="StoryMaker"
-const password_actual="StoryMaker"
+//global vars
+const password_actual = "StoryMaker321"
+
 //function for validating if 2 passwords match
 function passValidation (passAct, input){
-    let matchCheck=false
-    let lengthCheck=false
-    let strengthCheck=false
+    let matchCheck = false
+    let lengthCheck = false
+    let strengthCheck = false
 
+    //checks if the input is the same as the actual password
     switch(input){
         case passAct:
             console.log("Yeah, yeah, they match")
-            matchCheck=true
+            matchCheck = true
             break
         default:
-            console.log("What the fuck are ya on about!?")
+            console.log("They don't match")
             break
     }
+    
+    //checks if the input has at least 8 characters
+    if (input.length >= 8){
+        lengthCheck = true
+        console.log("Yep, length checks out.")
+    }
+    else if (input.length < 8){
+        console.log("Too short")
+    }
+    else {
+        console.log("Length check error.")
+    }
 
-    let passLength=input.length
+    //checks if input has at least 1 number, 1 uppercase character, and 1 lowercase character
+    let passArray = input.split("")
+    let numUpper = 0
+    let numLower = 0
+    let numNum = 0
+    for (let a = 0; a < passArray.length; a++) {
+        if (passArray[a].toUpperCase() == passArray[a].toLowerCase()){
+            numNum++
+        } else {
+            if (passArray[a] == passArray[a].toUpperCase()){
+                numUpper++
+            } else {
+                numLower++
+            }
+        }
+    }
+
+    if (numUpper >= 1 && numLower >= 1 && numNum >= 1){
+        console.log("Complex enough")
+        strengthCheck = true
+    } else if (numUpper < 1 || numLower < 1 || numNum < 1) {
+        console.log("At least one of the complexities is not enough")
+    } else {
+        console.log("Something went wrong")
+    }
+
+    //checks if all three conditions are satisfied.
+    if (matchCheck == true && lengthCheck == true && strengthCheck == true){
+        console.log("Everything is satisfied.")
+        return true
+    } else if (matchCheck == false || lengthCheck == false || strengthCheck == false) {
+        console.log("At least one of the conditions were unsatisfied.")
+        return false
+    } else {
+        console.log("Something went wrong")
+        return false
+    }
+
 }
 
-passValidation(password_actual,password_input)
 //function for reversing password
-
+function passReverse (pass) {
+    var passArray = pass.split("")
+    var passRevArr = []
+    for (let a = passArray.length - 1; a >= 0; a--){
+        passRevArr.push(passArray[a])
+    }
+    var passRevAct = passRevArr.join("")
+    return passRevAct
+}
 //function for storing the password to the object
+
+//Testing
+//correct password
+var password_input = "StoryMaker321"
+passValidation(password_actual,password_input)
+//mismatch
+password_input = "StoryMaker"
+passValidation(password_actual,password_input)
+//reverse password
+console.log(passReverse(password_actual))
+
+
+
